@@ -7,7 +7,8 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   console.log(req.query);
 
-  console.log(req.cookies);
+  console.log(req.cookies); // with cookie parser package
+  console.log(req.headers.cookie); // without cookie perser package
 
   res.send(`Category: ${req.query.category}, Featured: ${req.query.featured} `);
 });
