@@ -1,10 +1,40 @@
 const express = require("express");
-var cookieParser = require("cookie-parser");
+var shortid = require("shortid");
 const app = express();
-app.use(cookieParser());
+app.use(express.json());
+
+const todos = [];
+
+app.delete("/todos/:todoId", (req, res) => {});
+
+app.patch("/todos/:todoId", (req, res) => {});
+
+app.put("/todos/:todoId", (req, res) => {});
+
+app.get("/todos/:todoId", (req, res) => {});
+
+app.get("/todos", (req, res) => {
+  return res.status(200).json(todos);
+});
+
+app.post("/todos", (req, res) => {
+  const { text } = req.body;
+  const todo = {
+    id: shortid(),
+    text,
+    isCompleted: false,
+    created: new Date(),
+  };
+
+  todos.push(todo);
+
+  res.status(201).json({ message: "todos created succesful", ...todo });
+});
 
 // route
-app.get("/", (req, res) => {});
+app.get("/", (req, res) => {
+  res.send("I am alive");
+});
 
 app.listen(4000, () => {
   console.log("Server is running on port 4000");
