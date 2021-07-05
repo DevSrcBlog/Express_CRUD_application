@@ -11,10 +11,15 @@ app.patch("/todos/:todoId", (req, res) => {});
 
 app.put("/todos/:todoId", (req, res) => {});
 
-app.get("/todos/:todoId", (req, res) => {});
+app.get("/todos/:todoId", (req, res) => {
+  const { todoId } = req.params;
+  const todo = todos.find((todo) => todo.id === todoId);
+  return res.status(201).json(todo);
+});
 
 app.get("/todos", (req, res) => {
-  return res.status(200).json(todos);
+  const result = todos.map((todo) => ({ id: todo.id, text: todo.text }));
+  return res.status(200).json(result);
 });
 
 app.post("/todos", (req, res) => {
