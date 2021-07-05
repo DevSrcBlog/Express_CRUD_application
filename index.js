@@ -9,7 +9,34 @@ app.delete("/todos/:todoId", (req, res) => {});
 
 app.patch("/todos/:todoId", (req, res) => {});
 
-app.put("/todos/:todoId", (req, res) => {});
+app.put("/todos/:todoId", (req, res) => {
+  // if the item is not exist the then create one
+  // if it exist then update
+  const { text, isCompleted } = req.body;
+  const { todoId } = req.params;
+  const todo = todos.find((todo) => todo.id === todoId);
+
+  if (!todo) {
+    // will be new create
+    const todo = {
+      id: shortid(),
+      text,
+      isCompleted: false,
+      created: new Date(),
+    };
+    todos.push(todo);
+    res.status(201).json({ message: "updated new todos created", ...todo });
+  } else {
+    // update
+    (todo.text = text || todo.text),
+      (todo.isCompleted = isCompleted || todo.isCompleted);
+
+    const index = todos.findIndex((todo) => todo.id === todoId);
+
+    todos[index] = todo;
+    res.status(201).json({ message: "todos updated", ...todo });
+  }
+});
 
 app.get("/todos/:todoId", (req, res) => {
   const { todoId } = req.params;
