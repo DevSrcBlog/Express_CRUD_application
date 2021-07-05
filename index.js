@@ -7,7 +7,22 @@ const todos = [];
 
 app.delete("/todos/:todoId", (req, res) => {});
 
-app.patch("/todos/:todoId", (req, res) => {});
+app.patch("/todos/:todoId", (req, res) => {
+  const { todoId } = req.params;
+  const { text, isCompleted } = req.body;
+
+  const index = todos.findIndex((todo) => todo.id === todoId);
+
+  if (index === -1) {
+    return res.status(404).json({ message: "Todo not found" });
+  }
+  todos[index].text = text || todos[index].text;
+  todos[index].isCompleted = isCompleted || todos[index].isCompleted;
+
+  res
+    .status(201)
+    .json({ message: "Todo updated succesfully", ...todos[index] });
+});
 
 app.put("/todos/:todoId", (req, res) => {
   // if the item is not exist the then create one
