@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
+app.use("/todos", require("./routes"));
+
 app.get("/", (req, res) => {
   res.send("I am alive");
 });

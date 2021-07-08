@@ -1,7 +1,7 @@
 var shortid = require("shortid");
 const todos = [];
 
-export const create = (req, res) => {
+exports.create = (req, res) => {
   const { text } = req.body;
   const todo = {
     id: shortid(),
@@ -15,18 +15,18 @@ export const create = (req, res) => {
   res.status(201).json({ message: "todos created succesful", ...todo });
 };
 
-export const findAll = (req, res) => {
+exports.findAll = (req, res) => {
   const result = todos.map((todo) => ({ id: todo.id, text: todo.text }));
   return res.status(200).json(result);
 };
 
-export const findById = (req, res) => {
+exports.findById = (req, res) => {
   const { todoId } = req.params;
   const todo = todos.find((todo) => todo.id === todoId);
   return res.status(201).json(todo);
 };
 
-export const putUpdateById = (req, res) => {
+exports.putUpdateById = (req, res) => {
   // if the item is not exist the then create one
   // if it exist then update
   const { text, isCompleted } = req.body;
@@ -55,7 +55,7 @@ export const putUpdateById = (req, res) => {
   }
 };
 
-export const patchUpdateById = (req, res) => {
+exports.patchUpdateById = (req, res) => {
   const { todoId } = req.params;
   const { text, isCompleted } = req.body;
 
@@ -72,7 +72,7 @@ export const patchUpdateById = (req, res) => {
     .json({ message: "Todo updated succesfully", ...todos[index] });
 };
 
-export const deleteTodos = (req, res) => {
+exports.deleteTodos = (req, res) => {
   const { todoId } = req.params;
   const index = todos.findIndex((todo) => todo.id === todoId);
   todos.slice(index, 1);
